@@ -1,9 +1,15 @@
-import numpy as np
-import getweather as gw
-from getweather import get_conditions, get_current_temp
-import tracemalloc
-import asyncio
-
+try:
+    import numpy as np
+    import getweather as gw
+    from getweather import get_conditions, get_current_temp
+    import tracemalloc
+    import asyncio
+except ModuleNotFoundError:
+    import installer as install
+    install.install_package('numpy asyncio')
+    print('requirements installed')
+    import numpy as np
+    import asyncio
 weather_cmds = np.array(["What is the weather like?", "What is the current weather?", "What is the weather right now?"])
 temp_qs = np.array(["What is the temperature today?", "Is it hot or cold right now?", "What is the temperature like?", "What is the temperature right now?"])
 greetings = np.array(["Hello.", "Hi!", "Hey!", "Hey there!"])

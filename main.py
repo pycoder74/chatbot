@@ -43,11 +43,14 @@ if task is True:
     forecast = asyncio.run(get_conditions(location))
     print(forecast)
     tracemalloc.stop()
-
-if task in wqa.temp_qs:
-    location = input("Enter country: ")
-    tracemalloc.start()
-    print("Calling get_current_temp()...")
-    temp = asyncio.run(get_current_temp(location))
-    print(temp)
-    tracemalloc.stop()
+if task is False:
+    task=np.any(wqa.temp_qs == task)
+    if task is True
+        location = input("Enter country: ")
+        tracemalloc.start()
+        print("Calling get_current_temp()...")
+        temp = asyncio.run(get_current_temp(location))
+        print(temp)
+        tracemalloc.stop()
+else:
+    print('Invalid command')

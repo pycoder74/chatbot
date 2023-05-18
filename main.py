@@ -34,23 +34,24 @@ question = np.random.choice(ga.questions)
 
 task = input(f"{greeting} {question}\n>> ")
 print(f"Task entered: {task}")
-task=np.any(wqa.weather_cmds == task)
-print(task)
-if task is True:
+task_is_true=np.any(wqa.weather_cmds == task)
+print(task_is_true)
+if task_is_true == True:
     location = input("Enter country:")
     tracemalloc.start()
     print("Calling get_conditions()...")
     forecast = asyncio.run(get_conditions(location))
     print(forecast)
     tracemalloc.stop()
-if task is False:
-    task=np.any(wqa.temp_qs == task)
-    if task is True
+elif task_is_true == False:
+    task_is_true=np.any(wqa.temp_qs == task)
+    if task_is_true == True:
+        print(task_is_true)
         location = input("Enter country: ")
         tracemalloc.start()
         print("Calling get_current_temp()...")
         temp = asyncio.run(get_current_temp(location))
         print(temp)
         tracemalloc.stop()
-else:
-    print('Invalid command')
+        
+

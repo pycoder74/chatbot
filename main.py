@@ -34,7 +34,9 @@ question = np.random.choice(ga.questions)
 
 task = input(f"{greeting} {question}\n>> ")
 print(f"Task entered: {task}")
-task_is_true=np.any(wqa.weather_cmds == task)
+p_task=tz.tokenize(task)
+print(p_task)
+task_is_true=p_task[0] in wqa.weather_words
 print(task_is_true)
 if task_is_true == True:
     location = input("Enter country:")

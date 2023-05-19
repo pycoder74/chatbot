@@ -36,7 +36,13 @@ task = input(f"{greeting} {question}\n>> ")
 print(f"Task entered: {task}")
 p_task=tz.tokenize(task)
 print(p_task)
-task_is_true=p_task[0] in wqa.weather_words
+for i in p_task:
+    i = 0
+    task_is_true=p_task[i] in wqa.weather_words
+    if task_is_true== False:
+        while False:
+            i=i+1
+            task_is_true=p_task[i] in wqa.weather_words
 print(task_is_true)
 if task_is_true == True:
     location = input("Enter country:")
@@ -46,7 +52,7 @@ if task_is_true == True:
     print(forecast)
     tracemalloc.stop()
 elif task_is_true == False:
-    task_is_true=np.any(wqa.temp_qs == task)
+    task_is_true=np.any(wqa.temp_words == task)
     if task_is_true == True:
         print(task_is_true)
         location = input("Enter country: ")

@@ -11,6 +11,7 @@ try:
     import greeting_arrays as ga
     import tokenizer as tz
     import pandas
+    import check_weather_question as cwq
 except ModuleNotFoundError as err:
     import traceback
     print(traceback.format_exc())
@@ -28,38 +29,15 @@ except ModuleNotFoundError as err:
     import greeting_arrays as ga
     import tokenizer as tz
     import pandas
-    
+    import check_weather_question as cwq
 greeting = np.random.choice(ga.greetings)
 question = np.random.choice(ga.questions)
 
 task = input(f"{greeting} {question}\n>> ")
 print(f"Task entered: {task}")
 p_task=tz.tokenize(task)
-print(p_task)
-for i in p_task:
-    i = 0
-    task_is_true=p_task[i] in wqa.weather_words
-    if task_is_true== False:
-        while False:
-            i=i+1
-            task_is_true=p_task[i] in wqa.weather_words
-print(task_is_true)
-if task_is_true == True:
-    location = input("Enter country:")
-    tracemalloc.start()
-    print("Calling get_conditions()...")
-    forecast = asyncio.run(get_conditions(location))
-    print(forecast)
-    tracemalloc.stop()
-elif task_is_true == False:
-    task_is_true=np.any(wqa.temp_words == task)
-    if task_is_true == True:
-        print(task_is_true)
-        location = input("Enter country: ")
-        tracemalloc.start()
-        print("Calling get_current_temp()...")
-        temp = asyncio.run(get_current_temp(location))
-        print(temp)
-        tracemalloc.stop()
+weather_bool=cwq.check_weather_question(p_task)
+
+
         
 

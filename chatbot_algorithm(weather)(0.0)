@@ -1,0 +1,9 @@
+Algorithm for Chatbot - Processing User Input (weather)(0.0)
+1. Ask for user input with random message taken from 'questions' array and 'welcome' array. 
+2. Store response as variable 'user_input'
+3. Tokenize user_input and store as variable 'p_user_input'
+4. if 'weather' and a date that is today in p_user_input:
+	1. Get basic weather(today's date)
+	2. Print output
+	3. Ask for anything else with random message from 'prompts' array
+	4. Tokenize response as t_r

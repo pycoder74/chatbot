@@ -36,6 +36,7 @@ question = np.random.choice(ga.questions)
 task = input(f"{greeting} {question}\n>> ")
 print(f"Task entered: {task}")
 p_task=tz.tokenize(task)
+print(f'Tokenized task:{p_task}')
 weather_bool=cwq.check_weather_question(p_task)
 
 

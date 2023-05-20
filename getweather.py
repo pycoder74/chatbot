@@ -3,30 +3,73 @@ import tracemalloc
 import random
 import numpy as np
 import asyncio
+import aiohttp
+import sys
 
 async def get_conditions(location):
-    async with python_weather.Client() as client:
-        print("Client connection established.")
-        weather = await client.get(location)
-        weather_descrip = weather.current.description.lower()
-        print(f"Weather for {location}: {weather_descrip} and temperature {weather.current.temperature}°C")
-        weather_outputs = np.array([f"{location} is {weather.current.temperature}°C and {weather_descrip}",
-                                    f"In {location}, it is {weather.current.temperature}°C and {weather_descrip}.",
-                                    f"{location} is currently {weather_descrip} with a temperature of {weather.current.temperature}°C."])
-        return np.random.choice(weather_outputs)
+    url = f"https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{location}"
+    params = {
+        "unitGroup": "metric",
+        "include": "current",
+        "key": "5H2F2M6K2X4E9LXKH7UP3DNMQ",
+        "contentType": "json"
+    }
+
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url, params=params) as response:
+            if response.status != 200:
+                print('Unexpected Status code:', response.status)
+                return None
+
+            jsonData = await response.json()
+
+            # Extracting the current temperature
+            current_temp = jsonData['currentConditions']['temp']
+            current_temp = f"{current_temp}°C"
+
+            # Extracting the weather conditions
+            weather_conditions = jsonData['currentConditions']['conditions']
+
+            weather_outputs = np.array([
+                f"{location} is {current_temp} and {weather_conditions}",
+                f"In {location}, it is {current_temp} and {weather_conditions}.",
+                f"{location} is currently {weather_conditions} with a temperature of {current_temp}."
+            ])
+
+            return np.random.choice(weather_outputs)
+
 
 async def get_current_temp(location):
-    async with python_weather.Client() as client:
-        print("Client connection established.")
-        weather = await client.get(location)
-        print(f"Weather for {location}: temperature {weather.current.temperature}°C")
-        return f"The temperature is {weather.current.temperature}°C in {location}."
-async def get_forecast(days, location):
-    async with python_weather.Client() as client:
-        print("Client connection established.")
-        weather = await client.get(location)
-        for forecast in weather.forecasts:
-            print(forecast)
+    url = f"https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{location}"
+    params = {
+        "unitGroup": "metric",
+        "include": "current",
+        "key": "5H2F2M6K2X4E9LXKH7UP3DNMQ",
+        "contentType": "json"
+    }
+
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url, params=params) as response:
+            if response.status != 200:
+                print('Unexpected Status code:', response.status)
+
+            jsonData = await response.json()
+
+            # Extracting the current temperature
+            current_temp = jsonData['currentConditions']['temp']
+            current_temp = f"{current_temp}°C"
+            temp_outputs=np.array([f"In {location}, it is {current_temp}.", f"{location} is currently {current_temp}."])
+            # Print the current temperature
+            return np.random.choice(temp_outputs)
+
+
+async def main():
+    location = 'Bristol'
+
+    result = await get_conditions(location)
+    print(result)
+
+    await get_current_temp(location)
 
 if __name__ == '__main__':
-    asyncio.run(get_forecast(5, 'Bristol'))
+    asyncio.run(main())

@@ -11,6 +11,7 @@ def check_weather_question(p_task):
             break  # Exit the loop as soon as a weather-related word is found
 
     if p_task_is_true:
+        print(p_task_is_true)
         location = input("Enter country:")
         tracemalloc.start()
         print("Calling get_conditions()...")
@@ -32,5 +33,12 @@ def check_weather_question(p_task):
             temp = loop.run_until_complete(asyncio.ensure_future(get_current_temp(location)))
             print(temp)
             tracemalloc.stop()
+        else:
+            p_task_is_temp = p_task in wqa.moon_words
+            print(p_task_is_temp)
+            
+if __name__ == "__main__":
+    p_task = input('Enter weather-related task')
+    check_weather_question(p_task)
 
 

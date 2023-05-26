@@ -12,7 +12,7 @@ def check_weather_question(p_task):
 
     if p_task_is_true:
         print(p_task_is_true)
-        location = input("Enter country:")
+        location = input("Enter location:")
         tracemalloc.start()
         print("Calling get_conditions()...")
         loop = asyncio.get_event_loop()
@@ -26,16 +26,13 @@ def check_weather_question(p_task):
         p_task_is_temp = p_task in wqa.temp_words
         if p_task_is_temp:
             print(p_task_is_temp)
-            location = input("Enter country: ")
+            location = input("Enter location: ")
             tracemalloc.start()
             print("Calling get_current_temp()...")
             loop = asyncio.get_event_loop()
             temp = loop.run_until_complete(asyncio.ensure_future(get_current_temp(location)))
             print(temp)
             tracemalloc.stop()
-        else:
-            p_task_is_temp = p_task in wqa.moon_words
-            print(p_task_is_temp)
             
 if __name__ == "__main__":
     p_task = input('Enter weather-related task')
